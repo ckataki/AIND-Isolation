@@ -51,43 +51,16 @@ def custom_score(game, player):
             blank_spaces = game.get_blank_spaces()
             blanks = len(blank_spaces)
             blocked = game.width*game.height - 2 - blanks
-            player_x, player_y = game.get_player_location(player)
-            center_x, center_y = game.width/2, game.height/2
-            #player_dist_center = float((center_x - player_x)**2 + (center_y - player_y)**2)
-            #player_dist_center = player_dist_center**0.5
-            #penalty = 1./(player_dist_center+1)
-            #score = float((own_moves - 2*opponent_moves) * blocked)
+            score = 0
 
             if (blocked < blanks):
-                score = (own_moves - opponent_moves) * move_number
-                return score
+                score += (own_moves - opponent_moves)
             elif (blocked > 2*blanks):
-                score = (own_moves - 3*opponent_moves) * move_number
-                return score
+                score += (own_moves - 2.5*opponent_moves)
             else:
-                score = (own_moves - 2*opponent_moves)
-                penalty = 8
-                for i in range(-1,1):
-                    for j in range(-1,1):
-                        if (i,j) == (0,0):
-                            continue
-                        if (player_x + i < 0) or (player_x + i > game.width-1):
-                            continue
-                        if (player_y + j < 0) or (player_y + j > game.height-1):
-                            continue
-                        position = (player_x + i, player_y + j)
-                        if position in blank_spaces:
-                            penalty -= 1
-                score -= penalty
-                score = score * move_number
-                return score
-            """
-            if (score > 0):
-                score = score * penalty
-            else:
-                score = score / penalty
-            return score*move_number
-            """
+                score += (own_moves - 2*opponent_moves)
+            score = score * move_number
+            return score
 
 
 def custom_score_2(game, player):
@@ -129,7 +102,7 @@ def custom_score_2(game, player):
                 score = float(own_moves/opponent_moves)
             else:
                 score = -1. * float(opponent_moves/own_moves)
-            return score*move_number
+            return score
 
 
 def custom_score_3(game, player):
@@ -168,7 +141,7 @@ def custom_score_3(game, player):
         else:
             move_number = game.move_count
             score = float(own_moves - 2*opponent_moves)
-            return score*move_number
+            return score
 
 
 class IsolationPlayer:

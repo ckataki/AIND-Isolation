@@ -59,7 +59,7 @@ def custom_score(game, player):
                 score += (own_moves - 2.5*opponent_moves)
             else:
                 score += (own_moves - 2*opponent_moves)
-            score = score * move_number
+            score = float(score * move_number)
             return score
 
 
